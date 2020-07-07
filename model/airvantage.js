@@ -79,9 +79,9 @@ var query_post_ctor = function (host, base, url) {
             const data = JSON.stringify(params);
 
             const options = {
-                hostname: "sensorhub.tech",
+                hostname: host,
                 port: 443,
-                path: "/api/login",
+                path: base+url,
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -133,6 +133,9 @@ var authurl = "/api/";
 
 /** Get all systems */
 exports.systems_query = query_get_ctor(host, apiurl, "systems");
+
+/** Get all devices */
+exports.devices_query = query_get_ctor(host, apiurl, "device");
 
 /** Get all alert */
 exports.alerts_query = query_get_ctor(host, apiurl, "alerts");
