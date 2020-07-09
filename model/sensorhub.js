@@ -14,77 +14,25 @@ const { access } = require("fs");
 //
 // this will request https://localhost/myrootpath/mypath/value1/pathend?param2='val2'&param3='val3'
 var query_get_ctor = function (host, base, url) {
+    //this params is the optional var user send from controller 
     return function (params) {
         return function (callback) {
-            const https = require("https");
-
-            //const data = JSON.stringify("" + params);
-             // manage URL query parameters
-            //var param_section = _.reduce(_.pairs(params), function(memo, pair){return memo + pair[0] + "=" + pair[1] + "&";}, "?");
+            //handle URL path: orgURL is the url, it will be replace by var prmt which being cut from params
+            var u = _.reduce(_.pairs(params), 
+            function (orgURL, prmt) {
+                return orgURL.replace(":" + prmt[0], prmt[1]);
+            }, url);
             
-            // console.log(params);
-            // console.log(params.access_token);
-
-
-
-            // const options = {
-            //     hostname: "sensorhub.tech",
-            //     port: 443,
-            //     path: "/api/" + url,
-            //     method: "GET",
-            //     //headers: headers,
-            //     headers: {
-            //         'Authorization': 'Bearer ${params.access_token}',
-            //         'Content-Type': 'application/json',
-            //     }
-
-            //     // headers: {                    
-            //     //    // "Content-Type": "application/json",
-            //     //     "Authorization": params.access_token
-            //     // },
-            // };
-
-             console.log("GET REQ: " + host + base+ url);
-
-            // https.request(options, function(resp){
-            //     resp.setEncoding('utf8');
-            //     var value = "";
-            //     resp.on('data', function(data){
-            //         value = value + data;
-            //         console.log("Res: " +value );
-            //     });
-            //     resp.on('end', function(){
-            //         var err = null, res = null;
-            //         if (resp.statusCode != 200){
-            //             err="Status Code " + resp.statusCode
-            //             callback(err,res);
-            //         } else {
-            //             try{
-            //                 res = JSON.parse(value);
-            //                 console.log("Res: " +res );
-            //             }catch(e){
-            //                 err=e;
-            //             }
-            //             callback(err,res);
-            //         }
-                    
-            //     });
-            // }).on('error', function(e) {
-            //     callback(e);
-            // }).end();
-            //     };
-
-//const data = JSON.stringify(params);
-
+            const https = require("https");
+            
             const options = {
                 hostname: "sensorhub.tech",
                 port: 443,
-                path: "/api/device",
+                path: "/api/" + u,
                 method: "GET",
                 headers: {
-                    "Content-Type": "application/json",
-                    "Content-Length": data.length,
-                },
+                    "Authorization": "Bearer " + params.access_token,
+                }
             };
 
             const req = https.request(options, (res) => {
@@ -92,7 +40,7 @@ var query_get_ctor = function (host, base, url) {
 
                 res.on("data", (d) => {
                     value = value + d;
-                    //  process.stdout.write(d);
+                    // process.stdout.write(d);
                 });
                 res.on("end", function () {
 
@@ -117,105 +65,9 @@ var query_get_ctor = function (host, base, url) {
                 console.error(error);
             });
 
-            req.write(data);
+            //req.write(data);
             req.end(function () { });
         };
-
-               
-
-
-
-
-            // const req = https.request(options, (res) => {
-            //     var value = "";
-
-            //     res.on("data", (d) => {
-            //         value = value + d;
-            //         console.log(value);
-            //         //  process.stdout.write(d);
-            //     });
-            //     res.on("end", function () {
-
-            //         var err = null,
-            //             resp = null;
-            //         if (res.statusCode != 200) {
-            //             err = "Status Code " + res.statusCode;
-            //             callback(err, resp);
-            //         } else {
-            //             try {
-                       
-            //                 resp = JSON.parse(value);
-            //                 console.log(resp);
-
-            //             } catch (e) {
-            //                 err = e;
-            //             }
-            //             callback(err, resp);
-            //         }
-            //     });
-            // });
-
-            // req.on("error", (error) => {
-            //     console.error(error);
-            // });
-
-            // //req.write(data);
-            // req.end(function () { });
-
-            // // manage URL path parameters
-            // var u = _.reduce(
-            //     _.pairs(params),
-            //     function (u, p) {
-            //         return u.replace(":" + p[0], p[1]);
-            //     },
-            //     url
-            // );
-
-            // // manage URL query parameters
-            // var param_section = _.reduce(
-            //     _.pairs(params),
-            //     function (memo, pair) {
-            //         return memo + pair[0] + "=" + pair[1] + "&";
-            //     },
-            //     "?"
-            // );
-
-            // // define url option
-            // var options = {
-            //     host: host,
-            //     path: base + u + param_section,
-            //     method: "GET",
-            // };
-            // console.log("GET REQ: " + host + base + u + param_section);
-            // // execute the request
-            // https
-            //     .request(options, function (resp) {
-            //         resp.setEncoding("utf8");
-            //         var value = "";
-            //         resp.on("data", function (data) {
-            //             value = value + data;
-            //         });
-            //         resp.on("end", function () {
-            //             var err = null,
-            //                 res = null;
-            //             if (resp.statusCode != 200) {
-            //                 err = "Status Code " + resp.statusCode;
-            //                 callback(err, res);
-            //             } else {
-            //                 try {
-            //                     res = JSON.parse(value);
-            //                 } catch (e) {
-            //                     err = e;
-            //                 }
-            //                 callback(err, res);
-            //             }
-            //         });
-            //     })
-            //     .on("error", function (e) {
-            //         callback(e);
-            //     })
-            //     .end();
-       // };
     };
 };
 
@@ -273,13 +125,11 @@ var query_post_ctor = function (host, base, url) {
     };
 };
 
-// SensorHub API, see API documentation.
+// AirVantage API, see API documentation.
 // ---------------------------------------
 var host = "sensorhub.tech";
 var apiurl = "/api/";
 var authurl = "/api/";
-
-
 
 /** Get all systems */
 exports.devices_query = query_get_ctor(host, apiurl, "device");
@@ -291,7 +141,7 @@ exports.alerts_query = query_get_ctor(host, apiurl, "alerts");
 exports.alerts_ack = query_post_ctor(host, apiurl, "alerts/:uid/acknowledge");
 
 /** Get last data of a system */
-exports.data_query = query_get_ctor(host, apiurl, "get_device_info/:uid");
+exports.data_query = query_get_ctor(host, apiurl, "get_device_info/:device_id");
 
 /** Get raw datapoints of a system */
 exports.data_raw_query = query_get_ctor(
