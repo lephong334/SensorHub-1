@@ -3,7 +3,7 @@
  * GET map
  */
 
-var airvantage = require('../model/airvantage');
+var sensorhub = require('../model/sensorhub');
 var _ = require('underscore');
 var async = require('async');
 
@@ -11,9 +11,9 @@ exports.get = function(req, resp) {
 
     async.parallel({
          // get all systems
-         systems : airvantage.systems_query({fields : "uid,name,data",access_token : req.session.access_token}),
+         systems : sensorhub.systems_query({fields : "uid,name,data",access_token : req.session.access_token}),
          // get all alerts
-         alerts : airvantage.alerts_query({fields : "uid,date,target,acknowledgedAt",access_token : req.session.access_token}) 
+         alerts : sensorhub.alerts_query({fields : "uid,date,target,acknowledgedAt",access_token : req.session.access_token}) 
     },
     function(err, res) {
         if (err) {

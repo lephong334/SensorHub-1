@@ -3,14 +3,10 @@
 // Modules dependencies
 // ---------------------------
 
-var airvantage = require('../model/airvantage');
+var sensorhub = require('../model/sensorhub');
 var _ = require('underscore');
 var async = require('async');
 
-// API credentials
-// ---------------------------
-var client_id = "MY_CLIENT_ID";
-var client_secret = "MY_CLIENT_SECRET";
 
 /**
  * Manage login/authentication Redirect on login page if there aren't access_token in current session
@@ -19,7 +15,7 @@ exports.check = function (req, resp, next) {
     // save the original URL in case we redirect to the login page
     // to allow it to return to the requested page
     req.session.originalUrl = req.originalUrl;
-    if (!req.session.token) {
+    if (!req.session.access_token) {
         resp.redirect('/signin');
         // } else if (req.session.expires_at - 3600000 > new Date().getTime()) {
 
@@ -64,14 +60,14 @@ exports.signin.post = function (req, resp, next) {
         "password": req.body.password,
     }
 
-    airvantage.token_query(options)(function (err, res) {
+    sensorhub.token_query(options)(function (err, res) {
         if (err) {
             console.log("ERR with body: " + err);
             resp.redirect('/signin');
         } else {
 
             // on success, refresh access token and continue to the requested page
-            req.session.token = res.token;
+            req.session.access_token = res.token;
             //req.session.access_token = res.access_token;
             // req.session.refresh_token = res.refresh_token;
             // req.session.expires_at = new Date().getTime() + res.expires_in * 1000;

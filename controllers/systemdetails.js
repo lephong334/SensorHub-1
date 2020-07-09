@@ -2,7 +2,7 @@
 
 // Modules dependencies
 // ---------------------------
-var airvantage = require('../model/airvantage');
+var sensorhub = require('../model/sensorhub');
 var _ = require('underscore');
 var async = require('async');
 
@@ -13,13 +13,13 @@ exports.get = function(req, resp) {
 
     async.parallel({
         // get system info
-        system : airvantage.systems_query({uid: uid, fields : "uid,name", access_token : req.session.access_token}),
+        system : sensorhub.systems_query({uid: uid, fields : "uid,name", access_token : req.session.access_token}),
         // get last 100 datapoints
-        temperature : airvantage.data_raw_query({uid: uid, path:"greenhouse.temperature", size: 500, access_token : req.session.access_token}),
-        luminosity  : airvantage.data_raw_query({uid: uid, path:"greenhouse.luminosity", size: 500, access_token : req.session.access_token}),
-        humidity    : airvantage.data_raw_query({uid: uid, path:"greenhouse.humidity", size: 500, access_token : req.session.access_token}),
+        temperature : sensorhub.data_raw_query({uid: uid, path:"greenhouse.temperature", size: 500, access_token : req.session.access_token}),
+        luminosity  : sensorhub.data_raw_query({uid: uid, path:"greenhouse.luminosity", size: 500, access_token : req.session.access_token}),
+        humidity    : sensorhub.data_raw_query({uid: uid, path:"greenhouse.humidity", size: 500, access_token : req.session.access_token}),
         // get all alerts
-        alerts : airvantage.alerts_query({access_token : req.session.access_token}) 
+        alerts : sensorhub.alerts_query({access_token : req.session.access_token}) 
     },
     function(err, res) {
         if (err) {

@@ -2,7 +2,7 @@
  * List of alarms
  */
 "use strict";
-var airvantage = require('../model/airvantage');
+var sensorhub = require('../model/sensorhub');
 var _ = require('underscore');
 var async = require('async');
 
@@ -11,7 +11,7 @@ var async = require('async');
 exports.get = function(req, resp) {
 
     //request alerts from AirVantage
-    airvantage.alerts_query({"access_token": req.session.access_token})(function(err, res) {
+    sensorhub.alerts_query({"access_token": req.session.access_token})(function(err, res) {
         if (err) {
             console.log("ERR: " + err);
             next(err);
@@ -41,7 +41,7 @@ exports.get = function(req, resp) {
 exports.post = function(req, resp, next){
 
     //post ack to AirVantage
-    airvantage.alerts_ack({uid: req.body.uid, "access_token": req.session.access_token}, "")(function(err, res){
+    sensorhub.alerts_ack({uid: req.body.uid, "access_token": req.session.access_token}, "")(function(err, res){
         if(err){
             next(err);
         }else{

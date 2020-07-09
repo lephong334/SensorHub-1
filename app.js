@@ -45,7 +45,7 @@ app.get('/signin', auth.signin.get);
 app.post('/signin', auth.signin.post);
 app.post('/signout', auth.signout.post);
 
-app.get('/', auth.check, function(req, res) {res.redirect('/systems');} );
+app.get('/', auth.check, function(req, res) {res.redirect('/devices');} );
 app.get('/alerts',  auth.check, alerts.get);
 app.post('/alerts',  auth.check, alerts.post);
 app.get('/systems', auth.check, systems.get);
