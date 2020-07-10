@@ -31,7 +31,9 @@ exports.get = function (req, resp) {
                                     console.log("ERR with body: " + err);
                                 } else {
                                     device = device_info[0];
-                                    cb(err, device);                                        
+                           
+                                    cb(err, device);  
+                                                                     
                                 }
                                 // if (device_info) {
                                 //     if ("greenhouse.temperature" in data && data["greenhouse.temperature"] !== null) {
@@ -106,3 +108,11 @@ exports.post = function (req, resp) {
 exports.delete = function (req, resp) {
     
 };
+
+
+// async.parallel({
+//     res1: async.apply(timeout, 2000),
+//     res2 : async.apply(timeout, 1500)
+//  }, function(err, res){
+//      console.log(res);
+//  });

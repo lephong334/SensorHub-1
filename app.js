@@ -6,10 +6,12 @@ var path = require('path');
 
 var auth   = require('./controllers/auth');
 var alerts  = require('./controllers/alerts');
-var systems  = require('./controllers/systems');
+// var systems  = require('./controllers/systems');
 var devices  = require('./controllers/devices');
 var map     = require('./controllers/map');
-var systemdetails = require('./controllers/systemdetails');
+
+const user = require("./controllers/profile");
+// var systemdetails = require('./controllers/systemdetails');
 
 
 var app = express();
@@ -17,13 +19,13 @@ var app = express();
 // set environments variables
 // ---------------------------
 var express = require('express');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var methodOverride = require('method-override');
-var session = require('express-session');
-var bodyParser = require('body-parser');
-var multer = require('multer');
-var errorHandler = require('errorhandler');
+// var favicon = require('serve-favicon');
+// var logger = require('morgan');
+// var methodOverride = require('method-override');
+// var session = require('express-session');
+// var bodyParser = require('body-parser');
+// var multer = require('multer');
+// var errorHandler = require('errorhandler');
 
 
 app.set('port', process.env.PORT || 443);
@@ -50,21 +52,27 @@ app.get('/alerts',  auth.check, alerts.get);
 app.post('/alerts',  auth.check, alerts.post);
 app.get('/devices', auth.check, devices.get);
 app.get('/map', auth.check, map.get);
-app.get('/systems/details', auth.check, systemdetails.get);
+
+app.get('/profile', user.get)
+// app.get('/systems/details', auth.check, systemdetails.get);
 
 
-const https = require('https');
-const fs = require('fs');
+// const https = require('https');
+// const fs = require('fs');
 
-var options = {
+// var options = {
 
- key: fs.readFileSync('private.key'),
+//  key: fs.readFileSync('private.key'),
 
- cert: fs.readFileSync('certificate.crt'),
+//  cert: fs.readFileSync('certificate.crt'),
 
- ca: fs.readFileSync ('ca_bundle.crt')
+//  ca: fs.readFileSync ('ca_bundle.crt')
 
-};
+// };
 
 
-var server = https.createServer(options, app).listen(443);
+// var server = https.createServer(options, app).listen(443);
+
+http.createServer(app).listen(8080, function(){
+    console.log("server running")
+})

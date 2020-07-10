@@ -19,8 +19,7 @@ var query_get_ctor = function (host, base, url) {
     return function (params) {
         return function (callback) {
             //handle URL path: orgURL is the url, it will be replace by var prmt which being cut from params
-            var u = _.reduce(_.pairs(params), 
-            function (orgURL, prmt) {
+            var u = _.reduce(_.pairs(params), function (orgURL, prmt) {
                 return orgURL.replace(":" + prmt[0], prmt[1]);
             }, url);
 
@@ -35,6 +34,8 @@ var query_get_ctor = function (host, base, url) {
                     "Authorization": "Bearer " + params.access_token,
                 }
             };
+            console.log(params);
+            console.log("u :" + u);
 
             const req = https.request(options, (res) => {
                 var value = "";
@@ -225,3 +226,5 @@ exports.add_device_query = query_post_ctor(host, apiurl, "provision");
 
 /** Delete device */
 exports.delete_device_query = query_delete_ctor(host, apiurl, "provision");
+
+exports.getUser = query_get_ctor(host, authurl, "me")
