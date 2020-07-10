@@ -28,7 +28,7 @@ exports.get = function (req, resp) {
                         sensorhub.data_query({device_id : device.device_id, access_token : req.session.access_token})
                             (function (err, device_info) {
                                 if (err) {
-                                    console.log("ERR with body: " + err);
+                                    console.log("ERR: " + err);
                                 } else {
                                     device = device_info[0];
                                     cb(err, device);                                        
@@ -87,20 +87,26 @@ exports.get = function (req, resp) {
 };
 
 exports.post = function (req, resp) {
-    
-    var options = {
-        "device_id": req.body.device_id,
-        "access_token": req.session.access_token,
-    };
 
-    sensorhub.add_device_query(options)(function (err, res) {
-        if (err) {
-            console.log("ERR with body: " + err);
-            resp.redirect('/devices');
-        } else {
-            resp.redirect('/devices');
-        }
-    });
+    var device_id = req.body.device_id;
+
+    if (device_id == "") {
+        resp.redirect('/devices');
+    } else {
+        var options = {
+            "device_id": device_id,
+            "access_token": req.session.access_token,
+        };
+
+        sensorhub.add_device_query(options)(function (err, res) {
+            if (err) {
+                console.log("ERR with body: " + err);
+                resp.redirect('/devices');
+            } else {
+                resp.redirect('/devices');
+            }
+        });
+    }
 };
 
 exports.delete = function (req, resp) {
