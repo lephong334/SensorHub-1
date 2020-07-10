@@ -19,13 +19,13 @@ exports.get = function (req, resp) {
             // using waterfall to excute all task sequentially
             async.waterfall, [
                 // request get the systems with token
-                sensorhub.devices_query({access_token : req.session.token}),
+                sensorhub.devices_query({access_token : req.session.access_token}),
                 function (devices, callback) {
                     // map each item in the systems to var device
                     async.map(devices, function (device, cb) {
-                        console.log(devices);
+                        // console.log(devices);
                         // request get each device infomation with token                     
-                        sensorhub.data_query({device_id : device.device_id, access_token : req.session.token})
+                        sensorhub.data_query({device_id : device.device_id, access_token : req.session.access_token})
                             (function (err, device_info) {
                                 if (err) {
                                     console.log("ERR with body: " + err);
@@ -84,4 +84,25 @@ exports.get = function (req, resp) {
         }
     });
 
+};
+
+exports.post = function (req, resp) {
+    
+    var options = {
+        "device_id": req.body.device_id,
+    }
+
+    sensorhub.add_device_query(options)(function (err, res) {
+        if (err) {
+            console.log("ERR with body: " + err);
+            resp.redirect('/devices');
+        } else {
+            console.log('add succeed');
+            resp.redirect('/devices');
+        }
+    });
+};
+
+exports.delete = function (req, resp) {
+    
 };

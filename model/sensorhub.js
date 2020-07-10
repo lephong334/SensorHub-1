@@ -4,6 +4,7 @@ var https = require("https");
 var _ = require("underscore");
 const { hostname } = require("os");
 const { access } = require("fs");
+const { unescape } = require("underscore");
 
 // create a new query for the given host, base URL and ending URL.
 // URL could  contains path parameter which will be passed to the query as a map
@@ -22,9 +23,9 @@ var query_get_ctor = function (host, base, url) {
             function (orgURL, prmt) {
                 return orgURL.replace(":" + prmt[0], prmt[1]);
             }, url);
-            
+
             const https = require("https");
-            
+
             const options = {
                 hostname: "sensorhub.tech",
                 port: 443,
@@ -74,6 +75,12 @@ var query_get_ctor = function (host, base, url) {
 var query_post_ctor = function (host, base, url) {
     return function (params, content) {
         return function (callback) {
+            //handle URL path: orgURL is the url, it will be replace by var prmt which being cut from params
+            var u = _.reduce(_.pairs(params), 
+            function (orgURL, prmt) {
+                return orgURL.replace(":" + prmt[0], prmt[1]);
+            }, url);
+
             const https = require("https");
 
             const data = JSON.stringify(params);
@@ -81,8 +88,68 @@ var query_post_ctor = function (host, base, url) {
             const options = {
                 hostname: "sensorhub.tech",
                 port: 443,
-                path: "/api/login",
+                path: "/api/" + u,
                 method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Content-Length": data.length,
+                },
+            };
+
+            const req = https.request(options, (res) => {
+                var value = "";
+
+                res.on("data", (d) => {
+                    value = value + d;
+                    //  process.stdout.write(d);
+                });
+                res.on("end", function () {
+
+                    var err = null,
+                        resp = null;
+                    if (res.statusCode != 200) {
+                        err = "Status Code " + res.statusCode;
+                        callback(err, resp);
+                    } else {
+                        try {
+                            resp = JSON.parse(value);
+
+                        } catch (e) {
+                            err = e;
+                        }
+                        callback(err, resp);
+                    }
+                });
+            });
+
+            req.on("error", (error) => {
+                console.error(error);
+            });
+
+            req.write(data);
+            req.end(function () { });
+        };
+    };
+};
+
+var query_delete_ctor = function (host, base, url) {
+    return function (params, content) {
+        return function (callback) {
+            //handle URL path: orgURL is the url, it will be replace by var prmt which being cut from params
+            var u = _.reduce(_.pairs(params), 
+            function (orgURL, prmt) {
+                return orgURL.replace(":" + prmt[0], prmt[1]);
+            }, url);
+
+            const https = require("https");
+
+            const data = JSON.stringify(params);
+
+            const options = {
+                hostname: "sensorhub.tech",
+                port: 443,
+                path: "/api/" + u,
+                method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
                     "Content-Length": data.length,
@@ -152,3 +219,9 @@ exports.data_raw_query = query_get_ctor(
 
 /** Get access token */
 exports.token_query = query_post_ctor(host, authurl, "login");
+
+/** Add new device */
+exports.add_device_query = query_post_ctor(host, apiurl, "provision");
+
+/** Delete device */
+exports.delete_device_query = query_delete_ctor(host, apiurl, "provision");
