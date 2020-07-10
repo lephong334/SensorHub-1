@@ -5,6 +5,7 @@ var _ = require("underscore");
 const { hostname } = require("os");
 const { access } = require("fs");
 const { unescape } = require("underscore");
+const { nextTick } = require("process");
 
 // create a new query for the given host, base URL and ending URL.
 // URL could  contains path parameter which will be passed to the query as a map
@@ -94,6 +95,7 @@ var query_post_ctor = function (host, base, url) {
                 headers: {
                     "Content-Type": "application/json",
                     "Content-Length": data.length,
+                    "Authorization": "Bearer " + params.access_token,
                 },
             };
 
@@ -154,6 +156,7 @@ var query_delete_ctor = function (host, base, url) {
                 headers: {
                     "Content-Type": "application/json",
                     "Content-Length": data.length,
+                    "Authorization": "Bearer " + params.access_token,
                 },
             };
 

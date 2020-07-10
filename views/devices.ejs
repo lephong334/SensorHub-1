@@ -102,7 +102,7 @@
           <form class="form-horizontal" role="form" method="POST" action="/addDevice" accept-charset="UTF-8">
             <div class="input-group">
               <input type="text" class="form-control" placeholder="Device ID" name="device_id">
-              <input type="submit" value="Add device" class="btn btn-primary btn-xs pull-right">
+              <input type="submit" value="Add device" class="btn btn-primary btn-s">
             </div>
           </form>
           <table class="table table-bordered table-hover">
@@ -121,7 +121,7 @@
                   <td><%= device.device_name %></td>
                   <td><%= device.type %></td>
                   <td class="text-center">
-                    <a href="/deleteDevice?id=<%= device.device_id %>" class='btn btn-info btn-xs'><span class="glyphicon glyphicon-edit"></span> Edit</a>
+                    <a href="/editDevice?id=<%= device.device_id %>" class='btn btn-info btn-xs'><span class="glyphicon glyphicon-edit"></span> Edit</a>
                     <a href="/deleteDevice?id=<%= device.device_id %>" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Del</a>
                   </td>
               </tr>

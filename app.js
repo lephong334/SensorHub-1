@@ -10,7 +10,10 @@ var alerts  = require('./controllers/alerts');
 var devices  = require('./controllers/devices');
 var map     = require('./controllers/map');
 
+
 const user = require("./controllers/profile");
+
+
 // var systemdetails = require('./controllers/systemdetails');
 
 
@@ -51,7 +54,14 @@ app.get('/', auth.check, function(req, res) {res.redirect('/devices');} );
 app.get('/alerts',  auth.check, alerts.get);
 app.post('/alerts',  auth.check, alerts.post);
 app.get('/devices', auth.check, devices.get);
+
 app.get('/map', auth.check, map.get);
+
+app.post('/addDevice', auth.check, devices.post);
+app.get('/deleteDevice', auth.check, devices.delete);
+// app.get('/map', auth.check, map.get);
+// app.get('/systems/details', auth.check, systemdetails.get);
+
 
 app.get('/profile', user.get)
 // app.get('/systems/details', auth.check, systemdetails.get);
@@ -59,6 +69,18 @@ app.get('/profile', user.get)
 
 // const https = require('https');
 // const fs = require('fs');
+
+// var options = {
+
+
+//  key: fs.readFileSync('private.key'),
+
+//  cert: fs.readFileSync('certificate.crt'),
+
+//  ca: fs.readFileSync ('ca_bundle.crt')
+
+// };
+
 
 // var options = {
 
@@ -73,6 +95,14 @@ app.get('/profile', user.get)
 
 // var server = https.createServer(options, app).listen(443);
 
+
 http.createServer(app).listen(8080, function(){
     console.log("server running")
 })
+
+// var server = https.createServer(options, app).listen(443);
+
+app.listen(3000, () => {
+    console.log("App is running on Port 3000");
+});
+
