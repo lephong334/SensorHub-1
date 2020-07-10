@@ -105,6 +105,7 @@ var query_post_ctor = function (host, base, url) {
                 res.on("data", (d) => {
                     value = value + d;
                     //  process.stdout.write(d);
+                    console.log(value)
                 });
                 res.on("end", function () {
 

@@ -116,7 +116,9 @@
             </thead>
             <tbody>
               <% devices.forEach(function (device) { %>
-              <tr>
+                <% if(typeof(device) != 'undefined') { %>
+              <tr> 
+                
                   <td><%= device.device_id %></td>
                   <td><%= device.device_name %></td>
                   <td><%= device.type %></td>
@@ -125,6 +127,7 @@
                     <a href="/deleteDevice?id=<%= device.device_id %>" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Del</a>
                   </td>
               </tr>
+              <% } %>
               <% }); %>
             </tbody>
           </table>
