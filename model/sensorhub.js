@@ -93,6 +93,7 @@ var query_post_ctor = function (host, base, url) {
                 headers: {
                     "Content-Type": "application/json",
                     "Content-Length": data.length,
+                    "Authorization": "Bearer " + params.access_token,
                 },
             };
 
@@ -153,6 +154,7 @@ var query_delete_ctor = function (host, base, url) {
                 headers: {
                     "Content-Type": "application/json",
                     "Content-Length": data.length,
+                    "Authorization": "Bearer " + params.access_token,
                 },
             };
 

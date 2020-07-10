@@ -6,10 +6,10 @@ var path = require('path');
 
 var auth   = require('./controllers/auth');
 var alerts  = require('./controllers/alerts');
-var systems  = require('./controllers/systems');
+// var systems  = require('./controllers/systems');
 var devices  = require('./controllers/devices');
 var map     = require('./controllers/map');
-var systemdetails = require('./controllers/systemdetails');
+// var systemdetails = require('./controllers/systemdetails');
 
 
 var app = express();
@@ -49,22 +49,28 @@ app.get('/', auth.check, function(req, res) {res.redirect('/devices');} );
 app.get('/alerts',  auth.check, alerts.get);
 app.post('/alerts',  auth.check, alerts.post);
 app.get('/devices', auth.check, devices.get);
-app.get('/map', auth.check, map.get);
-app.get('/systems/details', auth.check, systemdetails.get);
+app.post('/addDevice', auth.check, devices.post);
+app.get('/deleteDevice', auth.check, devices.delete);
+// app.get('/map', auth.check, map.get);
+// app.get('/systems/details', auth.check, systemdetails.get);
 
 
 const https = require('https');
 const fs = require('fs');
 
-var options = {
+// var options = {
 
- key: fs.readFileSync('private.key'),
+//  key: fs.readFileSync('private.key'),
 
- cert: fs.readFileSync('certificate.crt'),
+//  cert: fs.readFileSync('certificate.crt'),
 
- ca: fs.readFileSync ('ca_bundle.crt')
+//  ca: fs.readFileSync ('ca_bundle.crt')
 
-};
+// };
 
 
-var server = https.createServer(options, app).listen(443);
+// var server = https.createServer(options, app).listen(443);
+
+app.listen(3000, () => {
+    console.log("App is running on Port 3000");
+});

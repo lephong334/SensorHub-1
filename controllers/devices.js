@@ -56,7 +56,7 @@ exports.get = function (req, resp) {
     },
     function(err, res) {
         if (err) {
-            console.log("ERR: " + err);
+            console.log("ERR with body: " + err);
             next(err);
         } else {
             // // have no alert
@@ -90,14 +90,14 @@ exports.post = function (req, resp) {
     
     var options = {
         "device_id": req.body.device_id,
-    }
+        "access_token": req.session.access_token,
+    };
 
     sensorhub.add_device_query(options)(function (err, res) {
         if (err) {
             console.log("ERR with body: " + err);
             resp.redirect('/devices');
         } else {
-            console.log('add succeed');
             resp.redirect('/devices');
         }
     });
@@ -105,4 +105,17 @@ exports.post = function (req, resp) {
 
 exports.delete = function (req, resp) {
     
+    var options = {
+        "device_id": req.query.id,
+        "access_token": req.session.access_token,
+    };
+
+    sensorhub.delete_device_query(options)(function (err, res) {
+        if (err) {
+            console.log("ERR with body: " + err);
+            resp.redirect('/devices');
+        } else {
+            resp.redirect('/devices');
+        }
+    });
 };
