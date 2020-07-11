@@ -35,8 +35,6 @@ var query_get_ctor = function (host, base, url) {
                     "Authorization": "Bearer " + params.access_token,
                 }
             };
-            console.log(params);
-            console.log("u :" + u);
 
             const req = https.request(options, (res) => {
                 var value = "";
@@ -105,7 +103,6 @@ var query_post_ctor = function (host, base, url) {
                 res.on("data", (d) => {
                     value = value + d;
                     //  process.stdout.write(d);
-                    console.log(value)
                 });
                 res.on("end", function () {
 

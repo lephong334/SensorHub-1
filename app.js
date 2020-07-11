@@ -63,7 +63,7 @@ app.get('/deleteDevice', auth.check, devices.delete);
 // app.get('/systems/details', auth.check, systemdetails.get);
 
 
-app.get('/profile', user.get)
+app.get('/profile', auth.check, user.get)
 // app.get('/systems/details', auth.check, systemdetails.get);
 
 
