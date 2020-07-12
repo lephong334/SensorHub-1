@@ -68,6 +68,7 @@ exports.signin.post = function (req, resp, next) {
 
             // on success, refresh access token and continue to the requested page
             req.session.access_token = res.token;
+            req.session.email = req.body.username;
             //req.session.access_token = res.access_token;
             // req.session.refresh_token = res.refresh_token;
             // req.session.expires_at = new Date().getTime() + res.expires_in * 1000;
@@ -83,9 +84,8 @@ exports.signout = {};
 
 /** clear session : delete login information */
 exports.signout.post = function (req, resp) {
-    // req.session.access_token = null;
+    req.session.access_token = null;
     // req.session.refresh_token = null;
     // req.session.expires_at = null;
-
     resp.render('signin', {});
 };

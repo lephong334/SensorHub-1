@@ -9,7 +9,7 @@ var alerts  = require('./controllers/alerts');
 // var systems  = require('./controllers/systems');
 var devices  = require('./controllers/devices');
 var map     = require('./controllers/map');
-
+var authMiddleware = require('./middleware/auth');
 
 const user = require("./controllers/profile");
 
@@ -46,6 +46,7 @@ app.use(app.router);
 
 // Define routes
 // ---------------------------
+app.all('*', authMiddleware.email_info);
 app.get('/signin', auth.signin.get);
 app.post('/signin', auth.signin.post);
 app.post('/signout', auth.signout.post);
