@@ -27,9 +27,9 @@ var query_get_ctor = function (host, base, url) {
             const https = require("https");
 
             const options = {
-                hostname: "sensorhub.tech",
+                hostname: host,
                 port: 443,
-                path: "/api/" + u,
+                path: base + u,
                 method: "GET",
                 headers: {
                     "Authorization": "Bearer " + params.access_token,
@@ -86,9 +86,9 @@ var query_post_ctor = function (host, base, url) {
             const data = JSON.stringify(params);
 
             const options = {
-                hostname: "sensorhub.tech",
+                hostname: host,
                 port: 443,
-                path: "/api/" + u,
+                path: base + u,
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -103,7 +103,7 @@ var query_post_ctor = function (host, base, url) {
                     value = value + d;
                     //  process.stdout.write(d);
                 });
-                res.on("end", function () {
+                res.on("end", ()=> {
 
                     var err = null,
                         resp = null;
@@ -146,9 +146,9 @@ var query_delete_ctor = function (host, base, url) {
             const data = JSON.stringify(params);
 
             const options = {
-                hostname: "sensorhub.tech",
+                hostname: host,
                 port: 443,
-                path: "/api/" + u,
+                path: base + u,
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",

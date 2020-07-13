@@ -73,8 +73,7 @@ app.get('/profile', auth.check, user.get)
 
 
 app.get('/test',(req,res)=>{
-    req.flash('msg',"ok");
-    res.send("ok")
+    res.render('old_sample/systems');
 })
 // app.get('/systems/details', auth.check, systemdetails.get);
 
@@ -83,28 +82,10 @@ app.get('/test',(req,res)=>{
 // const fs = require('fs');
 
 // var options = {
-
-
 //  key: fs.readFileSync('private.key'),
-
 //  cert: fs.readFileSync('certificate.crt'),
-
 //  ca: fs.readFileSync ('ca_bundle.crt')
-
 // };
-
-
-// var options = {
-
-//  key: fs.readFileSync('private.key'),
-
-//  cert: fs.readFileSync('certificate.crt'),
-
-//  ca: fs.readFileSync ('ca_bundle.crt')
-
-// };
-
-
 // var server = https.createServer(options, app).listen(443);
 
 
