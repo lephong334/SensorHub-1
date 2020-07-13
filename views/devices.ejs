@@ -11,18 +11,13 @@
             <%- msg %>
         </div>
         <% } %>
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalScrollable">
+          <b>+</b> Add new device
+        </button>
 
-        <!-- Button trigger modal -->
-        <!-- Button trigger modal -->
-        <div id="ex1" class="modal" style="height: 40%;">
-          <h4>NEW DEVICE</h4>
-          <form class="form-horizontal mt-2" role="form" method="POST" action="/addDevice" accept-charset="UTF-8">
-              <input type="text" class="form-control" placeholder="Device ID" name="device_id">
-              <input type="submit" value="OK" class="form-control btn btn-primary mt-2">
-          </form>
-        </div>
         <!-- Link to open the modal -->
-        <table class="table table-bordered table-hover">
+        <table class="table table-bordered table-hover mt-3">
           <thead class="thead-light">
             <tr>
                 <th>Device ID</th>
@@ -31,12 +26,10 @@
                 <th class="text-center">Action</th>
             </tr>
           </thead>
-          <a href="#ex1" rel="modal:open" class="btn btn-primary btn-xs pull-right mb-3"><b>+</b> Add new device <br></a>
           <tbody>
             <% devices.forEach(function (device) { %>
               <% if(typeof(device) != 'undefined') { %>
             <tr> 
-
                 <td><%= device.device_id %></td>
                 <td><%= device.device_name %></td>
                 <td><%= device.type %></td>
@@ -52,5 +45,27 @@
       </div>
 </div>
 <% include layouts/footer.ejs %>
+
+<div class="modal fade" id="exampleModalScrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalScrollableTitle">NEW DEVICE</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form method="POST" action="/addDevice">
+        <div class="modal-body">
+            <input type="text" class="form-control" placeholder="Device ID" name="device_id"> 
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <input type="submit" class="btn btn-primary">
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 
 
