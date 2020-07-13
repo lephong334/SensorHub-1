@@ -73,7 +73,7 @@ app.get('/profile', auth.check, user.get)
 
 
 app.get('/test',(req,res)=>{
-    res.render('old_sample/systems');
+    res.render('test');
 })
 // app.get('/systems/details', auth.check, systemdetails.get);
 

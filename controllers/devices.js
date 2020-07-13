@@ -31,9 +31,7 @@ exports.get = function (req, resp) {
                                     console.log("ERR: " + err);
                                 } else {
                                     device = device_info[0];
-                           
-                                    cb(err, device);  
-                                                                     
+                                    cb(err, device);                                         
                                 }
                                 // if (device_info) {
                                 //     if ("greenhouse.temperature" in data && data["greenhouse.temperature"] !== null) {
@@ -123,9 +121,10 @@ exports.delete = function (req, resp) {
     sensorhub.delete_device_query(options)(function (err, res) {
         if (err) {
             console.log("ERR with body: " + err);
-            req.flash('msg','Deleted');
+            req.flash('msg','Failed');
             resp.redirect('/devices');
         } else {
+            req.flash('msg','Deleted');
             resp.redirect('/devices');
         }
     });

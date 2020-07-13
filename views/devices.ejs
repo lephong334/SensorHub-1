@@ -11,12 +11,17 @@
             <%- msg %>
         </div>
         <% } %>
-        <form class="form-horizontal mt-3" role="form" method="POST" action="/addDevice" accept-charset="UTF-8">
-          <div class="input-group">
-            <input type="text" class="form-control" placeholder="Device ID" name="device_id">
-            <input type="submit" value="Add device" class="btn btn-primary btn-s mt-3">
-          </div>
-        </form>
+
+        <!-- Button trigger modal -->
+        <!-- Button trigger modal -->
+        <div id="ex1" class="modal" style="height: 40%;">
+          <h4>NEW DEVICE</h4>
+          <form class="form-horizontal mt-2" role="form" method="POST" action="/addDevice" accept-charset="UTF-8">
+              <input type="text" class="form-control" placeholder="Device ID" name="device_id">
+              <input type="submit" value="OK" class="form-control btn btn-primary mt-2">
+          </form>
+        </div>
+        <!-- Link to open the modal -->
         <table class="table table-bordered table-hover">
           <thead class="thead-light">
             <tr>
@@ -26,11 +31,12 @@
                 <th class="text-center">Action</th>
             </tr>
           </thead>
+          <a href="#ex1" rel="modal:open" class="btn btn-primary btn-xs pull-right mb-3"><b>+</b> Add new device <br></a>
           <tbody>
             <% devices.forEach(function (device) { %>
               <% if(typeof(device) != 'undefined') { %>
             <tr> 
-              
+
                 <td><%= device.device_id %></td>
                 <td><%= device.device_name %></td>
                 <td><%= device.type %></td>
@@ -46,3 +52,5 @@
       </div>
 </div>
 <% include layouts/footer.ejs %>
+
+

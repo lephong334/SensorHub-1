@@ -88,5 +88,5 @@ exports.signout.post = function (req, resp) {
     req.session.access_token = null;
     // req.session.refresh_token = null;
     // req.session.expires_at = null;
-    resp.render('signin', {});
+    resp.redirect('/signin');
 };
