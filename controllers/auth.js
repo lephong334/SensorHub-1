@@ -49,7 +49,7 @@ exports.signin = {};
 
 /** render login page */
 exports.signin.get = function (req, resp) {
-    resp.render('signin', {});
+    resp.render('signin', {msg: req.flash('msg')});
 };
 
 /** try get access_token for AirVantage */
@@ -63,6 +63,7 @@ exports.signin.post = function (req, resp, next) {
     sensorhub.token_query(options)(function (err, res) {
         if (err) {
             console.log("ERR with body: " + err);
+            req.flash('msg', 'Sai tên đăng nhập hoặc mật khẩu');
             resp.redirect('/signin');
         } else {
 

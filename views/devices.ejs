@@ -6,6 +6,11 @@
 
 <div class="row">
       <div class="col-md-12 p-2">
+        <% if(msg != "") { %>
+        <div class="alert alert-success">
+            <%- msg %>
+        </div>
+        <% } %>
         <form class="form-horizontal mt-3" role="form" method="POST" action="/addDevice" accept-charset="UTF-8">
           <div class="input-group">
             <input type="text" class="form-control" placeholder="Device ID" name="device_id">
@@ -30,8 +35,8 @@
                 <td><%= device.device_name %></td>
                 <td><%= device.type %></td>
                 <td class="text-center">
-                  <a href="/editDevice?id=<%= device.device_id %>" class='btn btn-info btn-xs'><span class="glyphicon glyphicon-edit"></span> Edit</a>
-                  <a href="/deleteDevice?id=<%= device.device_id %>" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Del</a>
+                  <a href="/editDevice/<%= device.device_id %>" class='btn btn-info btn-xs'><span class="glyphicon glyphicon-edit"></span> Edit</a>
+                  <a href="/deleteDevice/<%= device.device_id %>" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Del</a>
                 </td>
             </tr>
             <% } %>

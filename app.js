@@ -12,6 +12,7 @@ var map     = require('./controllers/map');
 var authMiddleware = require('./middleware/auth');
 
 const user = require("./controllers/profile");
+var flash = require('connect-flash');
 
 
 // var systemdetails = require('./controllers/systemdetails');
@@ -39,10 +40,12 @@ app.use(express.bodyParser());
 app.use(express.cookieParser());         // get cookies from user agent and creates the req.cookies object
 app.use(express.session({ secret : "2e0e1250-26bf-11e3-8224-0800200c9a66"})); // manage session and create a req.session object
 app.use(express.methodOverride());
+app.use(flash());
 app.use(express.static(path.join(__dirname, 'node_modules')));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'bower_components'))); // serve static resource
 app.use(app.router);
+
 
 // Define routes
 // ---------------------------
@@ -59,12 +62,20 @@ app.get('/devices', auth.check, devices.get);
 app.get('/map', auth.check, map.get);
 
 app.post('/addDevice', auth.check, devices.post);
-app.get('/deleteDevice', auth.check, devices.delete);
+app.get('/deleteDevice/:id', auth.check, devices.delete);
+app.get('/editDevice/:id', auth.check, devices.edit.get);
+app.post('/editDevice', auth.check, devices.edit.post);
 // app.get('/map', auth.check, map.get);
 // app.get('/systems/details', auth.check, systemdetails.get);
 
 
 app.get('/profile', auth.check, user.get)
+
+
+app.get('/test',(req,res)=>{
+    req.flash('msg',"ok");
+    res.send("ok")
+})
 // app.get('/systems/details', auth.check, systemdetails.get);
 
 
@@ -100,10 +111,4 @@ app.get('/profile', auth.check, user.get)
 http.createServer(app).listen(8080, function(){
     console.log("server running")
 })
-
-// var server = https.createServer(options, app).listen(443);
-
-app.listen(3000, () => {
-    console.log("App is running on Port 3000");
-});
 

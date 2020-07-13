@@ -96,7 +96,6 @@ var query_post_ctor = function (host, base, url) {
                     "Authorization": "Bearer " + params.access_token,
                 },
             };
-
             const req = https.request(options, (res) => {
                 var value = "";
 
@@ -212,6 +211,8 @@ exports.alerts_ack = query_post_ctor(host, apiurl, "alerts/:uid/acknowledge");
 /** Get last data of a system */
 exports.data_query = query_get_ctor(host, apiurl, "get_device_info/:device_id");
 
+
+
 /** Get raw datapoints of a system */
 exports.data_raw_query = query_get_ctor(
     host,
@@ -229,3 +230,5 @@ exports.add_device_query = query_post_ctor(host, apiurl, "provision");
 exports.delete_device_query = query_delete_ctor(host, apiurl, "provision");
 
 exports.getUser = query_get_ctor(host, authurl, "me")
+
+exports.device_update = query_post_ctor(host,authurl, "update_device")

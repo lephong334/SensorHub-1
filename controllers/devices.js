@@ -81,6 +81,7 @@ exports.get = function (req, resp) {
             resp.render('devices', {
                 // alerts_count : alerts_count,
                 devices: res.devices,
+                msg: req.flash('msg')
                 // active : "systems"
             });
         }
@@ -102,9 +103,11 @@ exports.post = function (req, resp) {
 
         sensorhub.add_device_query(options)(function (err, res) {
             if (err) {
+                req.flash('msg','failed');
                 console.log("ERR with body: " + err);
                 resp.redirect('/devices');
             } else {
+                req.flash('msg','Add successfuly');
                 resp.redirect('/devices');
             }
         });
@@ -112,15 +115,15 @@ exports.post = function (req, resp) {
 };
 
 exports.delete = function (req, resp) {
-    
     var options = {
-        "device_id": req.query.id,
+        "device_id": req.params.id,
         "access_token": req.session.access_token,
     };
 
     sensorhub.delete_device_query(options)(function (err, res) {
         if (err) {
             console.log("ERR with body: " + err);
+            req.flash('msg','Deleted');
             resp.redirect('/devices');
         } else {
             resp.redirect('/devices');
@@ -129,15 +132,23 @@ exports.delete = function (req, resp) {
 };
 
 
-exports.delete = function (req, resp) {
-    
-};
+exports.edit = {};
+exports.edit.get = (req, res) =>{
+    var device_id = req.params.id;
+    res.render('device_edit.ejs',{device_id});
+}
 
 
-// async.parallel({
-//     res1: async.apply(timeout, 2000),
-//     res2 : async.apply(timeout, 1500)
-//  }, function(err, res){
-//      console.log(res);
-//  });
-
+exports.edit.post = (req, resp) => {
+    var params = {
+        device_id : req.body.device_id,
+        device_name: req.body.device_name,
+        access_token: req.session.access_token
+    }
+    sensorhub.device_update(params)(function(err, res){
+        if(!err) {
+            req.flash('msg','Update success');
+            resp.redirect('/devices');
+        } else console.log (err)
+    })
+}
