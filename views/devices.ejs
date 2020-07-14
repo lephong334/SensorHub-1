@@ -5,44 +5,45 @@
 </script>
 
 <div class="row">
-      <div class="col-md-12 p-2">
-        <% if(msg != "") { %>
-        <div class="alert alert-success">
-            <%- msg %>
-        </div>
-        <% } %>
-        <!-- Button trigger modal -->
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalScrollable">
-          <b>+</b> Add new device
-        </button>
-
-        <!-- Link to open the modal -->
-        <table class="table table-bordered table-hover mt-3">
-          <thead class="thead-light">
-            <tr>
-                <th>Device ID</th>
-                <th>Device Name</th>
-                <th>Type</th>
-                <th class="text-center">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% devices.forEach(function (device) { %>
-              <% if(typeof(device) != 'undefined') { %>
-            <tr> 
-                <td><%= device.device_id %></td>
-                <td><%= device.device_name %></td>
-                <td><%= device.type %></td>
-                <td class="text-center">
-                  <a href="/editDevice/<%= device.device_id %>" class='btn btn-info btn-xs'><span class="glyphicon glyphicon-edit"></span> Edit</a>
-                  <a href="/deleteDevice/<%= device.device_id %>" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Del</a>
-                </td>
-            </tr>
-            <% } %>
-            <% }); %>
-          </tbody>
-        </table>
-      </div>
+  <div class="col-md-12 p-2">
+    <% if(msg != "") { %>
+    <div class="alert alert-success">
+        <%- msg %>
+    </div>
+    <% } %>
+    <div class="mdl-grid white-section">
+      <!-- Button trigger modal -->
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalScrollable">
+        <b>+</b> Add new device
+      </button>
+      <!-- Link to open the modal -->
+      <table class="table table-bordered table-hover mt-3">
+        <thead class="thead-light">
+          <tr>
+              <th>Device ID</th>
+              <th>Device Name</th>
+              <th>Type</th>
+              <th class="text-center">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% devices.forEach(function (device) { %>
+            <% if(typeof(device) != 'undefined') { %>
+          <tr> 
+              <td><%= device.device_id %></td>
+              <td><%= device.device_name %></td>
+              <td><%= device.type %></td>
+              <td class="text-center">
+                <a href="/editDevice/<%= device.device_id %>" class='btn btn-info btn-xs'><span class="glyphicon glyphicon-edit"></span> Edit</a>
+                <a href="/deleteDevice/<%= device.device_id %>" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Del</a>
+              </td>
+          </tr>
+          <% } %>
+          <% }); %>
+        </tbody>
+      </table>
+    </div>    
+  </div>
 </div>
 <% include layouts/footer.ejs %>
 

@@ -10,6 +10,7 @@ var alerts  = require('./controllers/alerts');
 var devices  = require('./controllers/devices');
 var map     = require('./controllers/map');
 var authMiddleware = require('./middleware/auth');
+var documentation = require('./controllers/documentation');
 
 const user = require("./controllers/profile");
 var flash = require('connect-flash');
@@ -61,25 +62,21 @@ app.get('/devices', auth.check, devices.get);
 
 app.get('/map', auth.check, map.get);
 
-app.post('/addDevice', auth.check, devices.post);
+app.post('/addDevice', auth.check, devices.add.post);
 app.get('/deleteDevice/:id', auth.check, devices.delete);
 app.get('/editDevice/:id', auth.check, devices.edit.get);
 app.post('/editDevice', auth.check, devices.edit.post);
+
+app.get('/documentation', auth.check, documentation.get);
 // app.get('/map', auth.check, map.get);
 // app.get('/systems/details', auth.check, systemdetails.get);
 
-
 app.get('/profile', auth.check, user.get)
 
-
-app.get('/test',(req,res)=>{
-    res.render('test');
-})
 // app.get('/systems/details', auth.check, systemdetails.get);
 
-
-// const https = require('https');
-// const fs = require('fs');
+const https = require('https');
+const fs = require('fs');
 
 // var options = {
 //  key: fs.readFileSync('private.key'),
@@ -88,8 +85,6 @@ app.get('/test',(req,res)=>{
 // };
 // var server = https.createServer(options, app).listen(443);
 
-
 http.createServer(app).listen(8080, function(){
     console.log("server running")
 })
-

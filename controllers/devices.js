@@ -87,7 +87,8 @@ exports.get = function (req, resp) {
 
 };
 
-exports.post = function (req, resp) {
+exports.add = {};
+exports.add.post = function (req, resp) {
 
     var device_id = req.body.device_id;
 

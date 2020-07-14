@@ -1,3 +1,24 @@
 main {
     padding:15px;
 }
+
+.profile {
+    width:300px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+
+.profile img {
+    border-radius: 50%;
+}
+
+.profile table tr td {
+    padding: 16px;
+}
+
+.white-section {
+    background-color: white;
+    box-shadow: 2px 2px 2px 2px gray;
+}
