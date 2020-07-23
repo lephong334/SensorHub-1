@@ -6,17 +6,12 @@ var path = require('path');
 
 var auth   = require('./controllers/auth');
 var alerts  = require('./controllers/alerts');
-// var systems  = require('./controllers/systems');
 var devices  = require('./controllers/devices');
 var map     = require('./controllers/map');
 var authMiddleware = require('./middleware/auth');
-var documentation = require('./controllers/documentation');
 
 const user = require("./controllers/profile");
 var flash = require('connect-flash');
-
-
-// var systemdetails = require('./controllers/systemdetails');
 
 
 var app = express();
@@ -47,6 +42,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'bower_components'))); // serve static resource
 app.use(app.router);
 
+app.use('/documentation', express.static(path.join(__dirname, '/docs')));
 
 // Define routes
 // ---------------------------
@@ -67,13 +63,8 @@ app.get('/deleteDevice/:id', auth.check, devices.delete);
 app.get('/editDevice/:id', auth.check, devices.edit.get);
 app.post('/editDevice', auth.check, devices.edit.post);
 
-app.get('/documentation', auth.check, documentation.get);
-// app.get('/map', auth.check, map.get);
-// app.get('/systems/details', auth.check, systemdetails.get);
-
 app.get('/profile', auth.check, user.get)
 
-// app.get('/systems/details', auth.check, systemdetails.get);
 
 const https = require('https');
 const fs = require('fs');

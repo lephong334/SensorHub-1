@@ -24,7 +24,7 @@ exports.get = function (req, resp) {
                     // map each item in the systems to var device
                     async.map(devices, function (device, cb) {
                         // console.log(devices);
-                        // request get each device infomation with token                     
+                        // request get each device infomation with token
                         sensorhub.data_query({device_id : device.device_id, access_token : req.session.access_token})
                             (function (err, device_info) {
                                 if (err) {

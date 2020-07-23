@@ -6,7 +6,5 @@ exports.email_info = function(req, res, next){
             email: req.session.email
         });
     }
-    console.log("middleware runnig")
-
-    next()
+    next();
 }
