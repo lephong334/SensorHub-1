@@ -9,7 +9,6 @@ var alerts  = require('./controllers/alerts');
 var devices  = require('./controllers/devices');
 var map     = require('./controllers/map');
 var authMiddleware = require('./middleware/auth');
-
 const user = require("./controllers/profile");
 var flash = require('connect-flash');
 

@@ -23,7 +23,7 @@
   "apidoc": {
     "name": "API Reference Documentation",
     "version": "1.0.0",
-    "description": "Sensorhub API documentation",
+    "description": "Sensorhub APIs",
     "title": "API Reference Documentation",
     "url": "https://sensorhub.tech/api"
   }
